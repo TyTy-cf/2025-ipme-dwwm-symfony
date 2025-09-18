@@ -1,8 +1,14 @@
-{% if title is defined %}
+<div id="card-border">
+    {% if title is defined %}
+
     <h2 class="mt-5">{{ title }}</h2>
 {% endif %}
-<div class="row">
+<div  class="row">
+
+
     {% for game in games %}
+
+
         <a class="col-lg-4 col-md-6 col-sm-12 mb-2 card-link"
            href="{{ path('app_show_game', {'slug': game.slug}) }}">
             <div class="container-img">
@@ -18,5 +24,7 @@
                 </h3>
             </div>
         </a>
+
     {% endfor %}
+</div>
 </div>
