@@ -6,6 +6,7 @@ use App\Entity\Review;
 use App\Entity\User;
 use App\Form\ReviewType;
 use App\Repository\CategoryRepository;
+use App\Repository\CountryRepository;
 use App\Repository\GameRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
@@ -58,6 +59,34 @@ final class GameController extends AbstractController
             'game' => $game,
             'form' => $form,
             'reviews' => $reviewRepository->findBy(['game' => $game], ['createdAt' => 'DESC'], 4),
+        ]);
+    }
+
+    #[Route('/pays/{slug}', name: 'app_game_country')]
+    public function gameCountry(
+        string             $slug,
+        Request            $request,
+        PaginatorInterface $paginator,
+        CountryRepository  $countryRepository,
+    ): Response {
+        $country = $countryRepository->findFullBySlug($slug);
+
+        if ($country === null) {
+            $this->addFlash('danger', 'Ce pays n\'existe pas !');
+            return $this->redirectToRoute('app_home');
+        }
+
+        $perPage = 12;
+
+        $pagination = $paginator->paginate(
+            $country->getGames(),
+            $request->query->getInt('page', 1),
+            $perPage
+        );
+
+        return $this->render('game/games_by_country.html.twig', [
+            'country' => $country,
+            'pagination' => $pagination,
         ]);
     }
 

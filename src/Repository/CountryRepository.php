@@ -40,4 +40,16 @@ class CountryRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findFullBySlug(string $slug): ?Country
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 'g')
+            ->join('c.games', 'g')
+            ->where('c.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('g.price', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
