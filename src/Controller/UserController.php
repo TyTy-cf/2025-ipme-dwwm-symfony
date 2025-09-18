@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\UserType;
+use App\Repository\UserOwnGameRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,15 @@ class UserController extends AbstractController
 {
     #[Route('/profil/{name?}')]
     public function index(
-        UserRepository $userRepository,
-        Request $request,
-        ?string $name
+        UserRepository        $userRepository,
+        UserOwnGameRepository $userOwnGameRepository,
+        Request               $request,
+        ?string               $name
     ): Response
     {
         $user = $this->getUser();
+        $totalGameTime = $userOwnGameRepository->getTotalGameTime($name);
+
         if ($name === null && $user === null) {
             $this->addFlash('warning', 'Une erreur est survenue pour l affichage de ce profil');
             return $this->redirectToRoute('app_home');
@@ -44,6 +48,7 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'user' => $user,
             'form' => $form,
+            'totalGameTime' => $totalGameTime,
         ]);
     }
 }

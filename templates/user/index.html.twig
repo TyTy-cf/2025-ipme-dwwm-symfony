@@ -22,6 +22,14 @@
             {{ form_start(form) }}
             {{ form_end(form) }}
         {% endif %}
+
+        {% for total in totalGameTime %}
+            {% if total != 0 %}
+                {% set hours = (total // 3600) %}
+                {% set minutes = ((total % 3600) // 60) %}
+                <p>Temps de jeu total (hh:mm): {{ '%02d:%02d'|format(hours, minutes) }}</p>
+            {% endif %}
+        {% endfor %}
     </div>
 
 {% endblock %}

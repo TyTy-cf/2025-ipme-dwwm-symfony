@@ -16,28 +16,14 @@ class UserOwnGameRepository extends ServiceEntityRepository
         parent::__construct($registry, UserOwnGame::class);
     }
 
-    //    /**
-    //     * @return UserOwnGame[] Returns an array of UserOwnGame objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?UserOwnGame
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getTotalGameTime(string $name)
+    {
+        return $this->createQueryBuilder('uOg')
+            ->select('SUM(uOg.gameTime)')
+            ->join('uOg.user', 'u')
+            ->where('u.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
