@@ -1,7 +1,10 @@
-#card-border {
+.dorder-rating {
 
-    border-color: $default-orange;
+    border-color: solid $default-orange;
+    border-right: 2px;
+    padding: 1px;
 }
+
 
 .card-link {
     text-decoration: none;
