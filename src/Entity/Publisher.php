@@ -93,7 +93,7 @@ class Publisher implements SlugInterface
     /**
      * @var Collection<int, Game>
      */
-    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'publisher')]
+    #[ORM\OneToMany(targetEntity: Game::class, mappedBy: 'publisher', cascade: ["remove"])]
     #[Groups('publisher:item')]
     private Collection $games;
 

@@ -107,13 +107,13 @@ class Game implements SlugInterface
     /**
      * @var Collection<int, UserOwnGame>
      */
-    #[ORM\OneToMany(targetEntity: UserOwnGame::class, mappedBy: 'game')]
+    #[ORM\OneToMany(targetEntity: UserOwnGame::class, mappedBy: 'game', cascade: ["remove"])]
     private Collection $ownedByUser;
 
     /**
      * @var Collection<int, Review>
      */
-    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'game')]
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'game', cascade: ["remove"])]
     #[Groups('game:item')]
     private Collection $reviews;
 

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Publisher{% endblock %}
+
+{% block body %}
+    <main class="container d-flex align-items-center flex-column">
+        <h1>Publishers</h1>
+        <a href="{{ path('app_admin_publisher_add') }}" class="btn btn-light">Ajouter</a>
+        {% for publisher in publishers %}
+            <div>
+                <h2><a href="{{ path('app_admin_publisher_modify', {'id': publisher.id}) }}">{{ publisher.name }}</a></h2>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}

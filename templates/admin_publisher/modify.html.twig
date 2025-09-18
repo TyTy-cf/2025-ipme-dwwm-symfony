@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - {{ publisher.name }}{% endblock %}
+
+{% block body %}
+    <main>
+        <a href="{{ path('app_admin_publisher_delete', {'id': publisher.id}) }}" class="btn btn-danger">Delete</a>
+        <div class="container d-flex align-items-center flex-column gap-3">
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </div>
+    </main>
+
+{% endblock %}
