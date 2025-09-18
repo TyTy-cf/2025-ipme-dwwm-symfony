@@ -11,6 +11,7 @@ use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +50,7 @@ final class GameController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_show_game', [
-                'slug' => $game->getSlug()
+                'slug' => $game->getSlug(),
             ]);
         }
 
@@ -57,23 +58,36 @@ final class GameController extends AbstractController
             'game' => $game,
             'form' => $form,
             'reviews' => $reviewRepository->findBy(['game' => $game], ['createdAt' => 'DESC'], 4),
+            'categories' => $game->getCategories(),
         ]);
     }
 
     #[Route('/categorie/{slug}', name: 'app_game_category')]
     public function gameCategory(
         string             $slug,
+        Request            $request,
+        PaginatorInterface $paginator,
         CategoryRepository $categoryRepository
     ): Response
     {
         $category = $categoryRepository->findFullBySlug($slug);
+
         if ($category === null) {
             $this->addFlash('danger', 'Cette catégorie n\'existe pas !');
             return $this->redirectToRoute('app_home');
         }
 
+        $perPage = 12;
+
+        $pagination = $paginator->paginate(
+            $categoryRepository->findFullBySlug($slug)->getGames(),
+            $request->query->getInt('page', 1),
+            $perPage
+        );
+
         return $this->render('game/games_by_category.html.twig', [
             'category' => $category,
+            'pagination' => $pagination,
         ]);
     }
 

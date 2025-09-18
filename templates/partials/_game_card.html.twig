@@ -1,0 +1,15 @@
+<a class="col-lg-4 col-md-6 col-sm-12 mb-2 card-link"
+    href="{{ path('app_show_game', {'slug': game.slug}) }}">
+    <div class="container-img">
+        <img src="{{ game.thumbnailCover }}"
+                alt="{{ game.name }}">
+    </div>
+    <div class="d-flex justify-content-between">
+        <h3>
+            {{ game.name }}
+        </h3>
+        <h3>
+            {{ game.price }}€
+        </h3>
+    </div>
+</a>

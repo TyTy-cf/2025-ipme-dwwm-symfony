@@ -1,0 +1,15 @@
+<h2 class="my-3">{{ title }}</h2>
+<table class="table-dark w-100">
+    <tbody>
+        {% for game in games %}
+            <tr>
+                <td>
+                    {{ game.name }}
+                </td>
+                <td>
+                    {{ game.price|euro }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -41,6 +41,7 @@ security:
                 enable_csrf: true
 
     access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN}
         - { path: ^/api/countries, roles: ROLE_ADMIN, methods: ['POST', 'PUT', 'PATCH', 'DELETE'] }
         - { path: ^/api/categories, roles: ROLE_ADMIN, methods: ['POST', 'PUT', 'PATCH', 'DELETE'] }
         - { path: ^/api/games, roles: ROLE_ADMIN, methods: ['POST', 'PUT', 'PATCH', 'DELETE'] }

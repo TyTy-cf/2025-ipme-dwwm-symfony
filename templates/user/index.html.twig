@@ -6,8 +6,11 @@
 
 {% block body %}
 
-    {% set isLoggedUser = app.user.id == user.id %}
-
+    {% if app.user %}
+        {% set isLoggedUser = app.user.id == user.id %}
+    {% else %}
+        {% set isLoggedUser = false %}
+    {% endif %}
     <div class="container mt-3">
         <h1>
         {% if isLoggedUser %}

@@ -14,6 +14,11 @@
             <div class="col-lg-6">
                 <h1 class="text-center">{{ game.name }}</h1>
                 <p>{{ game.price }}€</p>
+                <p> Genre(s) du jeu :
+                {% for category in categories %}
+                    {{ category.name }}
+                {% endfor %}
+                </p>
 
                 <button class="btn btn-outline-primary"
                         title="Ajouter ce jeu à votre liste de souhait !"

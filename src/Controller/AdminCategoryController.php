@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[IsGranted('ROLE_ADMIN')]
 final class AdminCategoryController extends AbstractController
 {
     #[Route('/admin/category/nouvelle', name: 'app_admin_category_new', methods: ['GET', 'POST'])]

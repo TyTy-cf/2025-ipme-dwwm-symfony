@@ -5,10 +5,15 @@
     <div class="container">
         <h1>Jeux de la catégorie {{ category.name }}</h1>
 
-        {% include 'partials/_game_loop.html.twig' with {
-            'games': category.games
-        } %}
+        <div class="row">
+            {% for game in pagination %}
+                {% include "partials/_game_card.html.twig" with { game: game } %}
+            {% endfor %}
+        </div>
 
+        <div class="navigation">
+            {{ knp_pagination_render(pagination, "partials/_pagination.html.twig") }}
+        </div>
     </div>
 
 {% endblock %}

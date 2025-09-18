@@ -1,0 +1,15 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Admin - Game{% endblock %}
+
+{% block content %}
+        {% include 'partials/_admin_game_loop.html.twig' with {
+            'title': 'Tous les jeux : ',
+            'games': games
+        } %}
+
+        <div class="navigation my-4" data-bs-theme="dark">
+            {{ knp_pagination_render(games, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig')}}
+        </div>
+    {% block page_contents %}{% endblock %}
+{% endblock %}

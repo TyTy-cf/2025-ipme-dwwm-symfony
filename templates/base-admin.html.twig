@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SteamIsh V3{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('style') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('script') }}
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+
+{% endblock %}
+
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message|raw }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-2 col-12">
+            {% block sidebar %}
+                <div class="row">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ path('app_admin_game') }}">Jeux</a>
+                </div>
+                <div class="row">
+                    <a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ path('app_admin_category_new') }}">Categories</a>
+                </div>
+            {% endblock %}
+        </div>
+        <div class="col-lg-10 col-12">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}{% endblock %}
+</body>
+</html>

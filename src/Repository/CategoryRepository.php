@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -43,4 +44,14 @@ class CategoryRepository extends ServiceEntityRepository
             ->getOneOrNullResult(); // EXECUTE LA REQUETE (Le oneOrNullResult fait secrètement un LIMIT 1)
     }
 
+    public function getFullBySlug(string $slug): ?QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c', 'g')
+            ->join('c.games', 'g')
+            ->where('c.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('g.price', 'DESC')
+        ;
+    }
 }
