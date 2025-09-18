@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Game;
+use App\Entity\Publisher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -66,6 +67,18 @@ class GameRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findByPublisher(Publisher $publisher, int $limit = null): array
+    {
+      $qb = $this->createQueryBuilder('g')
+          ->join( 'g.publisher', 'p')
+          ->where('p = :publi')
+          ->setParameter('publi', $publisher);
+
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+        return $qb->getQuery()->getResult();
+    }
 
 
 }

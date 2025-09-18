@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\ReviewType;
 use App\Repository\CategoryRepository;
 use App\Repository\GameRepository;
+use App\Repository\PublisherRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
@@ -27,7 +28,6 @@ final class GameController extends AbstractController
         ReviewRepository       $reviewRepository,
         Request                $request,
         EntityManagerInterface $entityManager,
-        UserRepository         $userRepository,
     ): Response
     {
         $game = $gameRepository->findOneBy(['slug' => $slug]);
