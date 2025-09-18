@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Game;
+use App\Entity\UserOwnGame;
 use App\Form\UserType;
+use App\Repository\UserOwnGameRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +20,7 @@ class UserController extends AbstractController
     public function index(
         UserRepository $userRepository,
         Request $request,
+        UserOwnGameRepository $userOwnGameRepository,
         ?string $name
     ): Response
     {
@@ -40,10 +44,20 @@ class UserController extends AbstractController
                 // Oui
             }
         }
+       $myGames = $userOwnGameRepository->findBy(['user' => $user]);
+
+        dump($myGames);
 
         return $this->render('user/index.html.twig', [
             'user' => $user,
             'form' => $form,
+            'myGames' => $myGames,
+
+
         ]);
+    }
+
+    private function findOneBy(array $array)
+    {
     }
 }

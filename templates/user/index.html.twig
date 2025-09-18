@@ -16,7 +16,6 @@
             Profil de {{ user.name }}
         {% endif %}
         </h1>
-
         {% if isLoggedUser and form is not null %}
             {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
             {{ form_start(form) }}
@@ -24,4 +23,13 @@
         {% endif %}
     </div>
 
+<h2>Mes Jeux:</h2>
+
+    <div class="container w-100">
+        <div class="row-cols-lg-6">
+{% for userOwnGame in myGames %}
+        <img src="{{ userOwnGame.game.thumbnailCover }}">
+    {% endfor %}
+    </div>
+    </div>
 {% endblock %}
