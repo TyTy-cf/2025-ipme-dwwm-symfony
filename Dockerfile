@@ -1,3 +1,13 @@
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+COPY user_entry_point.sh /user_entry_point.sh
+RUN chmod +x /user_entry_point.sh
+RUN /user_entry_point.sh ${USER_ID} ${GROUP_ID}
+
+#switch to the good user
+USER ${USER_ID}:${GROUP_ID}
+
 FROM php:8.2-fpm AS php
 
 # Add the github script to easy install-php-extensions
