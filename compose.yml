@@ -32,7 +32,7 @@ services:
             MARIADB_DATABASE: db_steamish-v3
             MARIADB_ROOT_PASSWORD: root
         depends_on:
-        - php
+            - php
 
     phpmyadmin:
         image: phpmyadmin
@@ -47,7 +47,7 @@ services:
             - mariadb
 
     node:
-        image: node:24
+        image: node:20
         volumes:
             - ./:/var/www/html
         working_dir: /var/www/html
