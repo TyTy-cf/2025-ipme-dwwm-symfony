@@ -1,3 +1,9 @@
+FROM base AS dev
+
+# Install Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash && \
+    mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
+
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
