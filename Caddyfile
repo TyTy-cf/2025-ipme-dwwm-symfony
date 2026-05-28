@@ -1,0 +1,6 @@
+https://localhost:8443 {
+    tls internal
+    root * /var/www/html/public
+    file_server
+    php_fastcgi php:9000
+}

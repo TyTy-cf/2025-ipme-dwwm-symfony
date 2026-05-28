@@ -1,8 +1,59 @@
 services:
-    yarn:
-        image: node:20
-        working_dir: /var/www/html
+    php:
+        build:
+            dockerfile: Dockerfile
+            target: php
         volumes:
             - ./:/var/www/html
-        command: sh
+
+    caddy:
+        build:
+            dockerfile: Dockerfile
+            target: caddy
+        restart: unless-stopped
+        cap_add:
+            - NET_ADMIN
+        ports:
+            - 8443:8443
+        volumes:
+            - ./:/var/www/html
+            - caddy_data:/data
+            - caddy_config:/config
+        depends_on:
+            - php
+
+    mariadb:
+        image: mariadb:12
+        volumes:
+            - mariadb:/var/lib/mysql
+        ports:
+            - 3306:3306
+        environment:
+            MARIADB_DATABASE: db_steamish-v3
+            MARIADB_ROOT_PASSWORD: root
+        depends_on:
+        - php
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - 8080:80
+        environment:
+            - PMA_HOST=mariadb
+            - PMA_PORT=3306
+            - PMA_ARBITRARY=1
+        depends_on:
+            - mariadb
+
+    node:
+        image: node:24
+        volumes:
+            - ./:/var/www/html
+        working_dir: /var/www/html
         tty: true
+
+volumes:
+    mariadb:
+    caddy_data:
+    caddy_config:
