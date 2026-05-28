@@ -10,7 +10,11 @@ function initAddGameButton(): void {
                 .then((data: {qty: number}) => {
                     const cartQty: HTMLDivElement = document.querySelector('div.cart-quantity');
                     if (cartQty) {
+                        cartQty.classList.add('animation');
                         cartQty.innerHTML = data.qty + '';
+                        setTimeout(() => {
+                            cartQty.classList.remove('animation');
+                        }, 2000);
                     }
                 });
         });

@@ -16,6 +16,6 @@ function initCartLoader(): void {
             }
         );
         vueApp.mount(element);
-        element.removeAttribute('data-attr');
+        element.removeAttribute('data-cart-games');
     }
 }
