@@ -20,12 +20,33 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         $this->assertSelectorTextContains('h1', 'SteamIsh V3');
     }
 
-    public function testHeaderLinkOLK(): void
+    #[\PHPUnit\Framework\Attributes\TestWith([0, ''])]
+    #[\PHPUnit\Framework\Attributes\TestWith([1, '0'])]
+    #[\PHPUnit\Framework\Attributes\TestWith([2, 'Se connecter'])]
+    public function testHeaderLinks(int $order, string $text): void
     {
-        $links = $this->crawler->filter('a')
-            ->eq(2)
-            ->text();
+        $link = $this->crawler->filter('a')->eq($order)->text();
+        $this->assertEquals($text, $link);
+    }
 
-        $this->assertEquals('Se connecter', $links);
+    #[\PHPUnit\Framework\Attributes\TestWith([0, 'Recherchez un jeu, éditeur...'])]
+    #[\PHPUnit\Framework\Attributes\TestWith([1, 'Les dernières sorties'])]
+    #[\PHPUnit\Framework\Attributes\TestWith([2, 'Les meilleures offres'])]
+    #[\PHPUnit\Framework\Attributes\TestWith([3, 'Les tendances actuelles'])]
+    #[\PHPUnit\Framework\Attributes\TestWith([4, 'Les plus joués'])]
+    public function testCategoryTitles(int $order, string $text): void
+    {
+        $title = $this->crawler->filter('h2')->eq($order)->text();
+        $this->assertEquals($text, $title);
+    }
+
+    #[\PHPUnit\Framework\Attributes\TestWith(['Les dernières sorties'])]
+    #[\PHPUnit\Framework\Attributes\TestWith(['Les meilleures offres'])]
+    #[\PHPUnit\Framework\Attributes\TestWith(['Les tendances actuelles'])]
+    #[\PHPUnit\Framework\Attributes\TestWith(['Les plus joués'])]
+    public function testGamesAmountInCategory(string $id): void
+    {
+        $games = $this->crawler->filter('[data-test-id="' . $id . '"] a');
+        $this->assertEquals($games->count(), 9);
     }
 }

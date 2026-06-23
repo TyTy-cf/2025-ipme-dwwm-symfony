@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 
-class AbstractWebTestCaseTest extends WebTestCase
+abstract class AbstractWebTestCaseTest extends WebTestCase
 {
     static string $HOME = '/';
 
