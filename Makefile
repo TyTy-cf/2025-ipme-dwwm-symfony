@@ -3,6 +3,7 @@ DOCKER_USER ?= "$(shell id -u):$(shell id -g)"
 ENV ?= "dev"
 PREFIX ?= "db_steamish"
 DB_NAME="db_steamish"
+DB_TEST="db_steamish_test"
 
 init:
 	@cp .env .env.local
@@ -38,6 +39,18 @@ db:
 	@docker compose exec -T mariadb mariadb -uroot -proot $(DB_NAME) < ./data.sql
 	@echo "Database import completed."
 
+db-test:
+	@echo "DELETE DB TEST..."
+	@docker compose exec -T mariadb mariadb -uroot -proot -e "DROP database IF EXISTS db_steamish_test;"
+
+	@echo "CREATE DB TEST..."
+	@docker compose exec -T php php bin/console doctrine:database:create --env=test
+	@docker compose exec -T php php bin/console d:m:m -n --env=test
+
+	@echo "Importing initial database structure and data..."
+	@docker compose exec -T mariadb mariadb -uroot -proot $(DB_TEST) < ./data.sql
+	@echo "Database import completed."
+
 up:
 	@docker compose up -d
 
@@ -53,6 +66,9 @@ down:
 
 php:
 	@docker compose exec php bash
+
+test:
+	@docker compose exec php vendor/bin/phpunit tests/Controller/Front/HomeControllerTest.php
 
 node:
 	@docker compose exec node bash
