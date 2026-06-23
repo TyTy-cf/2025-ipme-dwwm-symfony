@@ -2,10 +2,10 @@
 
 namespace App\Tests\Controller\Front;
 
-use App\Tests\AbstractWebTestCaseTest;
+use App\Tests\AbstractWebTestCase;
 use PHPUnit\Metadata\TestWith;
 
-class HomeControllerTest extends AbstractWebTestCaseTest
+class HomeControllerTestCase extends AbstractWebTestCase
 {
 
     protected function setUp(): void
