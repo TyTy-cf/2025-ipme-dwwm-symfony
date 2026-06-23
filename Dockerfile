@@ -4,8 +4,8 @@ FROM base AS dev
 RUN curl -sS https://get.symfony.com/cli/installer | bash && \
     mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG USER_ID=1001
+ARG GROUP_ID=1001
 
 COPY user_entry_point.sh /user_entry_point.sh
 RUN chmod +x /user_entry_point.sh

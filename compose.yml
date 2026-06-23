@@ -23,26 +23,25 @@ services:
             - php
 
     mariadb:
-        image: mariadb:12
-        volumes:
-            - mariadb:/var/lib/mysql
+        image: mariadb:11.5.2
+        environment:
+            MARIADB_ROOT_PASSWORD: root
+            MARIADB_DATABASE: db_steamish
         ports:
             - 3306:3306
-        environment:
-            MARIADB_DATABASE: db_steamish-v3
-            MARIADB_ROOT_PASSWORD: root
-        depends_on:
-            - php
+        volumes:
+            - mariadb:/var/lib/mysql
 
     phpmyadmin:
-        image: phpmyadmin
+        image: phpmyadmin/phpmyadmin
         restart: always
         ports:
             - 8080:80
         environment:
-            - PMA_HOST=mariadb
-            - PMA_PORT=3306
-            - PMA_ARBITRARY=1
+            PMA_HOST: mariadb
+            PMA_PORT: 3306
+            PMA_USER: root
+            PMA_PASSWORD: root
         depends_on:
             - mariadb
 
