@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Service\SessionCartService;
 use App\Tests\Exercise\AbstractKernelTestCase;
 use App\Tests\Exercise\AbstractWebTestCase;
+use PHPUnit\Framework\Attributes\TestWith;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -44,11 +45,15 @@ class SessionCartServiceTest extends AbstractKernelTestCase
     /** @throws ExceptionInterface */
     public function testAddItemToCart(): void
     {
-        $game = $this->gameRepository->findOneBy(['id' => 1]);
-        $this->service->addItemToCart($game);
-        $cartGame = $this->service->getCart()->getGamesDTO()[0];
-
-        $this->assertInstanceOf(GameDTO::class, $cartGame);
+        $game1 = $this->gameRepository->findOneBy(['id' => 1]);
+        $game2 = $this->gameRepository->findOneBy(['id' => 2]);
+        $this->service->addItemToCart($game1);
+        $this->service->addItemToCart($game2);
+        $cart = $this->service->getCart();
+        
+        $this->assertCount(2, $cart->getGamesDTO());
+        $this->assertGreaterThan(0, $cart->getTotalPrice());
+        $this->assertInstanceOf(GameDTO::class, $cart->getGamesDTO()[0]);
     }
 
 
