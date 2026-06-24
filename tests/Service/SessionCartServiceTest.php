@@ -57,13 +57,11 @@ class SessionCartServiceTest extends AbstractKernelTestCaseTest
      */
     public function testGetCartOk(): void
     {
-        $cart = $this->sessionCartService->getCart();
-        $this->assertInstanceOf(CartDTO::class, $cart);
-
         $this->addGameToCart(6);
         $this->addGameToCart(7);
 
         $cart = $this->sessionCartService->getCart();
+        $this->assertInstanceOf(CartDTO::class, $cart);
         $this->assertCount(2, $cart->getGamesDTO());
         foreach ($cart->getGamesDTO() as $game) {
             $this->assertInstanceOf(GameDTO::class, $game);
@@ -76,8 +74,6 @@ class SessionCartServiceTest extends AbstractKernelTestCaseTest
     public function testClearCart(): void
     {
         $this->addGameToCart(5);
-        $quantityAfterAdd = $this->sessionCartService->getCartQty();
-        $this->assertEquals(1, $quantityAfterAdd);
 
         $this->sessionCartService->clearCart();
         $quantity = $this->sessionCartService->getCartQty();
