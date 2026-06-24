@@ -31,51 +31,61 @@ class SessionCartService
     /**
      * @throws ExceptionInterface
      */
-    public function addItemToCart(Game $game): void
+    public function addItemToCart(Game $game): bool
     {
-        $session = $this->getSession();
         $existingGames = [];
 
-        if ($session->has(self::CART_GAMES)) {
-            $existingGames = $session->get(self::CART_GAMES);
+        try {
+            $session = $this->getSession();
+            if ($session->has(self::CART_GAMES)) {
+                $existingGames = $session->get(self::CART_GAMES);
+            }
+
+            if (!array_key_exists($game->getId(), $existingGames)) {
+                $existingGames[$game->getId()] = $this->serializer->serialize(
+                    new GameDTO(
+                        $game->getName(),
+                        $game->getSlug(),
+                        $this->generator->generate('app_show_game', ['slug' => $game->getSlug()]),
+                        $game->getThumbnailCover(),
+                        $game->getThumbnailCoverLink(),
+                        $game->getPrice()
+                    ),
+                    'json'
+                );
+
+            }
+
+            $session->set(self::CART_GAMES, $existingGames);
+            return true;
+        } catch (ExceptionInterface) {
+            return false;
         }
-
-        if (!array_key_exists($game->getId(), $existingGames)) {
-            $existingGames[$game->getId()] = $this->serializer->serialize(
-                new GameDTO(
-                    $game->getName(),
-                    $game->getSlug(),
-                    $this->generator->generate('app_show_game', ['slug' => $game->getSlug()]),
-                    $game->getThumbnailCover(),
-                    $game->getThumbnailCoverLink(),
-                    $game->getPrice()
-                ),
-                'json'
-            );
-
-        }
-
-        $session->set(self::CART_GAMES, $existingGames);
     }
 
     /**
      * @throws ExceptionInterface
      */
-    public function getCart(): CartDTO
+    public function getCart(): CartDTO|null
     {
         $totalPrice = 0;
         $games = [];
-        $sessionData = $this->getSession()->get(self::CART_GAMES) ?? [];
-        foreach ($sessionData as $jsonGame) {
-            $gameDTO = $this->serializer->deserialize(
-                $jsonGame,
-                GameDTO::class,
-                'json'
-            );
-            $totalPrice += $gameDTO->getPrice();
-            $games[] = $gameDTO;
+
+        try {
+            $sessionData = $this->getSession()->get(self::CART_GAMES) ?? [];
+            foreach ($sessionData as $jsonGame) {
+                $gameDTO = $this->serializer->deserialize(
+                    $jsonGame,
+                    GameDTO::class,
+                    'json'
+                );
+                $totalPrice += $gameDTO->getPrice();
+                $games[] = $gameDTO;
+            }
+            return new CartDTO($totalPrice, $games);
+        } catch (ExceptionInterface) {
+            return null;
         }
-        return new CartDTO($totalPrice, $games);
     }
 
     public function getCartQty(): int
