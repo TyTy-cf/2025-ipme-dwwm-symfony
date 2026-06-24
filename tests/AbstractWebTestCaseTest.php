@@ -13,6 +13,7 @@ class AbstractWebTestCaseTest extends WebTestCase
 {
     static string $HOME = '/';
     static string $REGISTER = '/inscription';
+    static string $PROFILE = '/profil';
 
     protected string $defaultUrl;
     protected KernelBrowser|AbstractBrowser|null $client;
