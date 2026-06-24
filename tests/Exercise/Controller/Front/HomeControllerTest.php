@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\Controller\Front;
+namespace App\Tests\Exercise\Controller\Front;
 
-use App\Tests\AbstractWebTestCase;
+use App\Tests\Exercise\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\TestWith;
 
-class HomeControllerTestCase extends AbstractWebTestCase
+class HomeControllerTest extends AbstractWebTestCase
 {
 
     protected function setUp(): void

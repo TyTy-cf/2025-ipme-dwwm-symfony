@@ -10,7 +10,6 @@
          testdox="true"
          bootstrap="tests/bootstrap.php"
          cacheDirectory=".phpunit.cache"
-         testdox="true"
 >
     <php>
         <ini name="display_errors" value="1"/>

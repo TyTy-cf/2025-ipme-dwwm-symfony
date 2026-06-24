@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Repository;
+namespace App\Tests\Exercise\Repository;
 
 use App\Entity\Game;
 use App\Repository\GameRepository;
-use App\Tests\AbstractKernelTestCase;
+use App\Tests\Exercise\AbstractKernelTestCase;
 
 class GameRepositoryTest extends AbstractKernelTestCase
 {

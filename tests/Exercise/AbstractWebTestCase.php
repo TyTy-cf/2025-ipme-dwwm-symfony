@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Exercise;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -22,5 +22,4 @@ abstract class AbstractWebTestCase extends WebTestCase
         $this->client = static::createClient();
         $this->crawler = $this->client->request('GET', $this->defaultUrl);
     }
-
 }
