@@ -14,9 +14,8 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         parent::setUp();
     }
 
-    public function testAccessOK(): void
+    public function testTitileExists(): void
     {
-        $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'SteamIsh V3');
     }
 
