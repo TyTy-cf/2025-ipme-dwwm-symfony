@@ -49,4 +49,19 @@ class SessionCartServiceTest extends AbstractKernelTestCaseTest
 
         $this->assertEquals(1, $quantity);
     }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    public function testClearCart(): void
+    {
+        $this->addGameToCart(5);
+        $quantityAfterAdd = $this->sessionCartService->getCartQty();
+        $this->assertEquals(1, $quantityAfterAdd);
+
+        $this->sessionCartService->clearCart();
+        $quantity = $this->sessionCartService->getCartQty();
+
+        $this->assertEquals(0, $quantity);
+    }
 }
