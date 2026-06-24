@@ -35,11 +35,11 @@ class SessionCartServiceTest extends AbstractKernelTestCaseTest
         $this->constructCart(self::GAME_IDS);
         $cart = $this->sessionCartService->getCart();
 
-        $this->assertTrue($cart instanceof CartDTO);
+        $this->isInstanceOf(CartDTO::class);
         $this->assertCount(count(self::GAME_IDS), $cart->getGamesDTO());
 
         foreach ($cart->getGamesDTO() as $game) {
-            $this->assertTrue($game instanceof GameDTO);
+            $this->isInstanceOf(GameDTO::class);
         }
     }
 
