@@ -1,7 +1,7 @@
 {% if title is defined %}
     <h2 class="mt-5">{{ title }}</h2>
 {% endif %}
-<div class="row">
+<div class="row" data-test="best-offer">
     {% for game in games %}
         {% include 'front/partials/_game_card.html.twig' with {
             'game': game

@@ -67,21 +67,47 @@ class HomeControllerTest extends AbstractWebTestCaseTest
     #[TestWith(['Cyberpunk 2077', 34])]
     public function testGameInSectionOK(string $content, int $position): void
     {
-        $games = static::getContainer()->get(EntityManagerInterface::class)
-            ->getRepository(Game::class)
-            ->findBy(
-                [],
-                ['price' => 'DESC'],
-                9
-            );
-
-        $this->assertNotEmpty($games);
-        $this->assertCount(9, $games);
+//        $games = static::getContainer()->get(EntityManagerInterface::class)
+//            ->getRepository(Game::class)
+//            ->findBy(
+//                [],
+//                ['price' => 'DESC'],
+//                9
+//            );
+//
+//        $this->assertNotEmpty($games);
+//        $this->assertCount(9, $games);
 
         $title = $this->crawler->filter('h3')
             ->eq($position)
             ->text();
 
         $this->assertEquals($content, $title);
+    }
+
+    public function testTitleOK(): void
+    {
+        $titles = $this->crawler->filter('[data-test="best-offer"]')->eq(1)->filter('h3');
+        $this->assertCount(18, $titles);
+    }
+
+    public function testFindByBestSeller(): void
+    {
+        $this->checkRepo('findByBestSeller');
+    }
+
+    public function testFindByMostPlayedGames(): void
+    {
+        $this->checkRepo('getMostPlayedGames');
+    }
+
+    private function checkRepo(string $repo): void
+    {
+        $games = static::getContainer()->get(EntityManagerInterface::class)
+            ->getRepository(Game::class)
+            ->$repo(9);
+
+        $this->assertNotEmpty($games);
+        $this->assertCount(9, $games);
     }
 }
