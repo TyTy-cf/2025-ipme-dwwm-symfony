@@ -20,17 +20,22 @@ class UserController extends AbstractController
         ?string $name
     ): Response
     {
-        $user = $this->getUser();
-        if ($name === null && $user === null) {
+        $loggedUser = $this->getUser();
+
+        if ($name === null && $loggedUser === null) {
             $this->addFlash('warning', 'Une erreur est survenue pour l affichage de ce profil');
             return $this->redirectToRoute('app_home');
         }
 
         $form = null;
+        $user = null;
 
-        if ($name !== null && $user === null) { // Lorsque je clique sur le compte d'un AUTRE utilisateur
+        if ($name !== null) { // Lorsque je clique sur le compte d'un AUTRE utilisateur
             $user = $userRepository->findOneBy(['name' => $name]);
-        } else { // Lorsque je clique sur MON COMPTE
+        }
+
+        if ($loggedUser === $user || $loggedUser && $name === null)  { // Lorsque je clique sur MON COMPTE
+            $user = $loggedUser;
             $form = $this->createForm(UserType::class, $user, [
                 'isRegistered' => false,
             ]);
