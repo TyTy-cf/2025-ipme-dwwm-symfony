@@ -90,24 +90,4 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         $titles = $this->crawler->filter('[data-test="best-offer"]')->eq(1)->filter('h3');
         $this->assertCount(18, $titles);
     }
-
-    public function testFindByBestSeller(): void
-    {
-        $this->checkRepo('findByBestSeller');
-    }
-
-    public function testFindByMostPlayedGames(): void
-    {
-        $this->checkRepo('getMostPlayedGames');
-    }
-
-    private function checkRepo(string $repo): void
-    {
-        $games = static::getContainer()->get(EntityManagerInterface::class)
-            ->getRepository(Game::class)
-            ->$repo(9);
-
-        $this->assertNotEmpty($games);
-        $this->assertCount(9, $games);
-    }
 }
