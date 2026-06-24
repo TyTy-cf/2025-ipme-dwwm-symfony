@@ -13,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class SessionCartService
 {
-
     const CART_GAMES = 'cart_games';
 
     public function __construct(
