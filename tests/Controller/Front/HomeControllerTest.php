@@ -30,18 +30,28 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         $this->assertEquals('Se connecter', $links);
     }
 
-    #[TestWith(['Les dernières sorties'])]
-    #[TestWith(['Les meilleures offres'])]
-    #[TestWith(['Les tendances actuelles'])]
-    #[TestWith(['Les plus joués'])]
-    public function testSubtitle(string $subtitle): void
+    #[TestWith(['Les dernières sorties', 2])]
+    #[TestWith(['Les meilleures offres', 2])]
+    #[TestWith(['Les tendances actuelles', 2])]
+    #[TestWith(['Les plus joués', 2])]
+    #[TestWith(['Action', 3])]
+    #[TestWith(['FPS', 3])]
+    #[TestWith(['Aventure', 3])]
+    #[TestWith(['Stratégie', 3])]
+    #[TestWith(['RPG', 3])]
+    #[TestWith(['MMO', 3])]
+    #[TestWith(['MOBA', 3])]
+    #[TestWith(['Monde ouvert', 3])]
+    #[TestWith(['Simulation', 3])]
+    public function testSubtitle(string $subtitle, int $titleHNumber): void
     {
-        $subtitles = $this->crawler->filter('h2');
+        $selector = 'h' . $titleHNumber;
+        $subtitles = $this->crawler->filter($selector);
 
         $found = false;
         foreach ($subtitles as $s)
         {
-            if ($subtitle === $s->textContent)
+            if (str_contains($s->textContent, $subtitle))
             {
                 $found = true;
             }
@@ -106,4 +116,5 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         }
         return false;
     }
+
 }
