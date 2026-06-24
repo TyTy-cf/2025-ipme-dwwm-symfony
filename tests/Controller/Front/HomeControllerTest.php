@@ -90,4 +90,16 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         $titles = $this->crawler->filter('[data-test="best-offer"]')->eq(1)->filter('h3');
         $this->assertCount(18, $titles);
     }
+
+    public function testBestSellerSectionOK(): void
+    {
+        $section = $this->crawler->filter('[data-test="best-offer"]')->eq(2);
+        $this->assertCount(1, $section);
+    }
+
+    public function testMostPlayedGamesSectionOK(): void
+    {
+        $section = $this->crawler->filter('[data-test="best-offer"]')->eq(3);
+        $this->assertCount(1, $section);
+    }
 }
