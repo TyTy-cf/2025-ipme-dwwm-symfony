@@ -92,7 +92,7 @@ class CountryControllerTest extends WebTestCase
 
         self::assertResponseRedirects('/admin/country');
 
-        $country = $this->countryRepository->findOneBy(['name' => 'Allemandais']);
+        $country = $this->countryRepository->findOneBy(['nationality' => 'Allemandais']);
 
         assertNotNull($country);
 
