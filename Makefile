@@ -68,7 +68,7 @@ php:
 	@docker compose exec php bash
 
 test:
-	@docker compose exec php vendor/bin/phpunit tests/Controller/Front/HomeControllerTest.php
+	@docker compose exec php vendor/bin/phpunit tests
 
 node:
 	@docker compose exec node bash
