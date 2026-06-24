@@ -47,6 +47,6 @@ class HomeControllerTestCase extends AbstractWebTestCase
     public function testGamesAmountInCategory(string $id): void
     {
         $games = $this->crawler->filter('[data-test-id="' . $id . '"] a');
-        $this->assertEquals($games->count(), 9);
+        $this->assertEquals(9, $games->count());
     }
 }
