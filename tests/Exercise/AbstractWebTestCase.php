@@ -14,15 +14,19 @@ abstract class AbstractWebTestCase extends WebTestCase
 {
     static string $HOME = '/';
     static string $REGISTER = '/inscription';
+    static string $PROFILE = '/profile';
 
-    protected string $defaultUrl;
+    protected ?string $defaultUrl = null;
     protected KernelBrowser|AbstractBrowser|null $client;
     protected Crawler $crawler;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->crawler = $this->client->request('GET', $this->defaultUrl);
+
+        if ($this->defaultUrl) {
+            $this->crawler = $this->client->request('GET', $this->defaultUrl);
+        }
     }
 
     protected function logIn(string $email): void
