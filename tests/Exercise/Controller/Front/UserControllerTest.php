@@ -20,7 +20,7 @@ class UserControllerTest extends AbstractWebTestCase
     public function testLoggedInProfilePage(): void
     {
         $this->logIn("alivia.cremin@torp.com");
-        $crawler = $this->client->request('GET', '/profil/zrath');
+        $crawler = $this->client->request('GET', '/profil');
         $this->assertResponseIsSuccessful();
 
         $formButton = $crawler->filter('#user_submit');

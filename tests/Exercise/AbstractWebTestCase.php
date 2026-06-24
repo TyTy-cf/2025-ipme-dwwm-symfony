@@ -34,8 +34,5 @@ abstract class AbstractWebTestCase extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneBy(['email' => $email]);
         $this->client->loginUser($user);
-
-        $this->client->request('GET', '/profil');
-        $this->assertResponseIsSuccessful();
     }
 }

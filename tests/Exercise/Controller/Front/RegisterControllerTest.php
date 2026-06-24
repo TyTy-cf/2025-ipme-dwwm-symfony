@@ -57,6 +57,7 @@ class RegisterControllerTest extends AbstractWebTestCase
         $form['user[password][second]'] = 'ld,fld,fmdl,fmdls,f';
 
         $this->client->submit($form);
+        $this->assertResponseIsUnprocessable();
 
         /** @var UserRepository $userRepository */
         $userRepository = self::getContainer()->get(UserRepository::class);
