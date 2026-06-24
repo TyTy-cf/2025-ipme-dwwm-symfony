@@ -3,6 +3,7 @@
 namespace App\Tests\Correction\Controller\Front;
 
 use App\Tests\Correction\AbstractWebTestCaseTest;
+use PHPUnit\Framework\Attributes\TestWith;
 
 class HomeControllerTest extends AbstractWebTestCaseTest
 {
@@ -19,12 +20,13 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         $this->assertSelectorTextContains('h1', 'SteamIsh V3');
     }
 
-    public function testHeaderLinkOLK(): void
+    #[TestWith([0, '/'], 'Ensure link to home')]
+    #[TestWith([1, '/panier'], 'Ensure link to panier')]
+    #[TestWith([2, '/login'], 'Ensure link to login')]
+    #[TestWith([3, '/inscription'], 'Ensure link to inscription')]
+    public function testHeaderLinks(int $order, string $href): void
     {
-        $links = $this->crawler->filter('a')
-            ->eq(2)
-            ->text();
-
-        $this->assertEquals('Se connecter', $links);
+        $link = $this->crawler->filter('a')->eq($order)->attr('href');
+        $this->assertEquals($href, $link);
     }
 }
