@@ -23,8 +23,4 @@ class AbstractWebTestCaseTest extends WebTestCase
         $this->client = static::createClient();
         $this->crawler = $this->client->request('GET', $this->defaultUrl);
     }
-
-    protected function tearDown(): void
-    {
-    }
 }

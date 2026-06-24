@@ -2,9 +2,10 @@
 
 namespace App\Tests\Controller\Front;
 
+use App\Entity\User;
 use App\Tests\AbstractWebTestCaseTest;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\TestWith;
-use function PHPUnit\Framework\assertSame;
 
 class RegisterControllerTest extends AbstractWebTestCaseTest
 {
@@ -32,15 +33,24 @@ class RegisterControllerTest extends AbstractWebTestCaseTest
 
     public function testRegisterWithValidData(): void
     {
-        $form= $this->crawler->selectButton('Valider mon inscription')->form();
+        $form = $this->crawler->selectButton('Valider mon inscription')->form();
+        $userEmail = 'user.test@test.com';
+
         $form['user[nickname]'] = 'User';
         $form['user[name]'] = 'Test';
-        $form['user[email]'] = 'user.test@test.com';
+        $form['user[email]'] = $userEmail;
         $form['user[password][first]'] = 'password';
         $form['user[password][second]'] = 'password';
-        $this->client->submit($form);
 
+        $this->client->submit($form);
         $this->assertResponseRedirects('/');
+        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+        $userRepository = $entityManager->getRepository(User::class);
+        $user = $userRepository->findOneBy(['email' => $userEmail]);
+
+        $this->assertNotNull($user);
+        $entityManager->remove($user);
+        $entityManager->flush();
     }
 
     public function testRegisterWithInvalidData(): void
