@@ -2,6 +2,8 @@
 
 namespace App\Tests\Service;
 
+use App\DTO\CartDTO;
+use App\DTO\GameDTO;
 use App\Repository\GameRepository;
 use App\Service\SessionCartService;
 use App\Tests\AbstractKernelTestCaseTest;
@@ -48,6 +50,24 @@ class SessionCartServiceTest extends AbstractKernelTestCaseTest
         $quantity = $this->sessionCartService->getCartQty();
 
         $this->assertEquals(1, $quantity);
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    public function testGetCartOk(): void
+    {
+        $cart = $this->sessionCartService->getCart();
+        $this->assertInstanceOf(CartDTO::class, $cart);
+
+        $this->addGameToCart(6);
+        $this->addGameToCart(7);
+
+        $cart = $this->sessionCartService->getCart();
+        $this->assertCount(2, $cart->getGamesDTO());
+        foreach ($cart->getGamesDTO() as $game) {
+            $this->assertInstanceOf(GameDTO::class, $game);
+        }
     }
 
     /**
