@@ -6,6 +6,7 @@ namespace App\Controller\Front;
 
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class UserController extends AbstractController
     #[Route('/profil/{name?}', name: 'app_user_show')]
     public function index(
         UserRepository $userRepository,
+        EntityManagerInterface $em,
         Request $request,
         ?string $name
     ): Response
@@ -37,7 +39,7 @@ class UserController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                // Oui
+                $em->flush();
             }
         }
 
