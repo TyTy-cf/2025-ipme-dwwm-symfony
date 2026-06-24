@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests\Controller\Front;
+namespace App\Tests\Correction\Controller\Front;
 
-use App\Tests\AbstractWebTestCaseTest;
-use PHPUnit\Metadata\TestWith;
+use App\Tests\Correction\AbstractWebTestCaseTest;
 
 class HomeControllerTest extends AbstractWebTestCaseTest
 {
