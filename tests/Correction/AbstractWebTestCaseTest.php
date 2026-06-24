@@ -23,4 +23,9 @@ class AbstractWebTestCaseTest extends WebTestCase
         $this->crawler = $this->client->request('GET', $this->defaultUrl);
     }
 
+    public function testAccessOk(): void
+    {
+        $this->assertResponseIsSuccessful();
+    }
+
 }
