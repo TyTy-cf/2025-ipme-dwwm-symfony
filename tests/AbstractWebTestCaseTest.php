@@ -12,6 +12,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class AbstractWebTestCaseTest extends WebTestCase
 {
     static string $HOME = '/';
+    static string $REGISTER = '/inscription';
 
     protected string $defaultUrl;
     protected KernelBrowser|AbstractBrowser|null $client;
@@ -23,4 +24,7 @@ class AbstractWebTestCaseTest extends WebTestCase
         $this->crawler = $this->client->request('GET', $this->defaultUrl);
     }
 
+    protected function tearDown(): void
+    {
+    }
 }
