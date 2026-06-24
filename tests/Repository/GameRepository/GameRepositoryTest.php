@@ -12,7 +12,8 @@ class GameRepositoryTest extends AbstractKernelTestCaseTest
 
     protected function setUp(): void
     {
-        $this->gameRepository = parent::getContainer()->get(GameRepository::class);
+        parent::setUp();
+        $this->gameRepository = parent::getClass(GameRepository::class);
     }
 
     #[TestWith([['Final Fantasy VII'], 1])]
@@ -22,9 +23,8 @@ class GameRepositoryTest extends AbstractKernelTestCaseTest
         $bestSellerGames = $this->gameRepository->findByBestSeller($limit);
 
         $this->assertCount($limit, $bestSellerGames);
-        for ($i = 0; $i < count($bestSellerGames); $i++) {
-            $this->assertSame($expected[$i], $bestSellerGames[$i]->getName());
-        }
+        $this->loopGame($expected, $bestSellerGames);
+
     }
 
     #[TestWith([['Final Fantasy VII'], 1])]
@@ -34,8 +34,13 @@ class GameRepositoryTest extends AbstractKernelTestCaseTest
         $bestSellerGames = $this->gameRepository->findByBestSeller($limit);
 
         $this->assertCount($limit, $bestSellerGames);
-        for ($i = 0; $i < count($bestSellerGames); $i++) {
-            $this->assertSame($expected[$i], $bestSellerGames[$i]->getName());
+        $this->loopGame($expected, $bestSellerGames);
+    }
+
+    private function loopGame(array $expected, array $bestSellerGames)
+    {
+        foreach($bestSellerGames as $key => $game) {
+            $this->assertSame($expected[$key], $game->getName());
         }
     }
 }

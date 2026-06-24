@@ -6,15 +6,30 @@ use App\Entity\Game;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
-Abstract class AbstractKernelTestCaseTest extends KernelTestCase
+abstract class AbstractKernelTestCaseTest extends KernelTestCase
 {
-    protected EntityManagerInterface $em;
-
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    }
+    protected function getClass(string $class)
+    {
+        return static::getContainer()->get($class);
     }
 
+    protected function setUpRequestStack(): void
+    {
+        $session = new Session(new MockArraySessionStorage());
+        $request = new Request();
+        $request->setSession($session);
+
+        $requestStack = static::getContainer()->get(RequestStack::class);
+        $requestStack->push($request);
+    }
 }
