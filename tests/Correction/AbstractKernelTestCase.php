@@ -13,9 +13,16 @@ class AbstractKernelTestCase extends KernelTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         self::bootKernel();
+    }
 
+    protected function get(string $className): null|object
+    {
+        return static::getContainer()->get($className);
+    }
+
+    protected function setUpRequestStack(): void
+    {
         $session = new Session(new MockArraySessionStorage());
         $request = new Request();
         $request->setSession($session);
@@ -24,8 +31,4 @@ class AbstractKernelTestCase extends KernelTestCase
         $requestStack->push($request);
     }
 
-    protected function get(string $className): null|object
-    {
-        return static::getContainer()->get($className);
-    }
 }

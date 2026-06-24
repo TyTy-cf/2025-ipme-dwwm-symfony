@@ -15,6 +15,7 @@ class SessionCartServiceTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->setUpRequestStack();
         $this->sessionCartService = $this->get(SessionCartService::class);
         $this->gameRepository = $this->get(GameRepository::class);
     }
