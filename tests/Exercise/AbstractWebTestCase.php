@@ -13,8 +13,9 @@ use Symfony\Component\DomCrawler\Crawler;
 abstract class AbstractWebTestCase extends WebTestCase
 {
     static string $HOME = '/';
+    static string $REGISTER = '/inscription';
 
-    protected string $defaultUrl = "/";
+    protected string $defaultUrl;
     protected KernelBrowser|AbstractBrowser|null $client;
     protected Crawler $crawler;
 
