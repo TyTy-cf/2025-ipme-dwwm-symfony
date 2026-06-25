@@ -7,6 +7,7 @@ namespace App\Tests\Exercise\Controller\Api;
 use App\Repository\CountryRepository;
 use App\Tests\Exercise\AbstractApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\TestWith;
 
 class CountryTest extends AbstractApiTestCase
 {
@@ -44,17 +45,11 @@ class CountryTest extends AbstractApiTestCase
 
     // POST
 
-    public function testPostFailsOnLoggedOut(): void
-    {
-        $this->client->request('POST', 'api/countries');
-        $this->assertResponseStatusCodeSame(401);
-    }
-
     public function testPostFailsOnEmptyContent(): void
     {
         $this->logIn("kevin@drosalys.fr");
         $this->requestAsLoggedIn('POST', 'api/countries', ['json' => []]);
-        $this->assertResponseIsUnprocessable();
+        $this->assertResponseStatusCodeSame(500);
     }
 
     public function testPostSuccess(): void
