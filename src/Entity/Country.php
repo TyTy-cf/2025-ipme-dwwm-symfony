@@ -38,6 +38,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
                 'groups' => [
                     'country:collection',
                     'country:item',
+                    'country:collection',
                 ],
             ]
         ),

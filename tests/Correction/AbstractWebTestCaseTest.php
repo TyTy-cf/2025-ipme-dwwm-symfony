@@ -14,8 +14,10 @@ class AbstractWebTestCaseTest extends WebTestCase
 {
     static string $HOME = '/';
     static string $PROFILE = '/profil/morgan93';
+    static string $REGISTER = '/inscription';
 
     protected string $defaultUrl;
+    protected bool $skipAccessTest = false;
     protected KernelBrowser|AbstractBrowser|null $client;
     protected Crawler $crawler;
     protected ?UserRepository $userRepository = null;
@@ -39,6 +41,9 @@ class AbstractWebTestCaseTest extends WebTestCase
 
     public function testAccessOk(): void
     {
+        if ($this->skipAccessTest) {
+            $this->markTestSkipped('testAccessOk skipped');
+        }
         $this->assertResponseIsSuccessful();
     }
 
