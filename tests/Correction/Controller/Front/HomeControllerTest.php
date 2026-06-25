@@ -50,12 +50,6 @@ class HomeControllerTest extends AbstractWebTestCaseTest
         $found = false;
         foreach ($subtitles as $s)
         {
-            if ($titleHNumber === 3) {
-                /** @vae DOMElement $s */
-                dump($s->nodeValue);
-                dump($s->textContent);
-                dump($subtitle);
-            }
             if (str_contains($s->textContent, $subtitle))
             {
                 $found = true;
