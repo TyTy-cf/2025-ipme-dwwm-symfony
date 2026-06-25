@@ -56,16 +56,9 @@ class CountryTest extends AbstractApiTestCase
         $countryRepository = $this->getContainer()->get(CountryRepository::class);
         $entityManager = $this->getContainer()->get(EntityManagerInterface::class);
 
-        $body = [
-            "code" => 'uz',
-            "name" => 'Uzbekistan',
-            "nationality" => "Uzbekistani"
-        ];
-
         // 1. Request
 
-        $this->logIn("kevin@drosalys.fr");
-        $response = $this->requestAsLoggedIn('POST', 'api/countries', ['json' => $body]);
+        $response = $this->postNew();
         $this->assertResponseIsSuccessful();
 
         // 2. Output data
@@ -86,5 +79,50 @@ class CountryTest extends AbstractApiTestCase
 
         $entityManager->remove($country);
         $entityManager->flush();
+    }
+
+    // DELETE
+
+    public function testDeleteSuccess(): void
+    {
+        $countryRepository = $this->getContainer()->get(CountryRepository::class);
+        $entityManager = $this->getContainer()->get(EntityManagerInterface::class);
+
+        // 1. Post new
+
+        $this->postNew();
+        $this->assertResponseIsSuccessful();
+
+        // 2. Get country
+
+        $country = $countryRepository->findOneBy(['code' => 'uz']);
+        $countryId = $country->getId();
+        $this->assertNotNull($country);
+
+        // 3. Delete
+
+        $route = 'api/countries/' . $countryId;
+        $this->requestAsLoggedIn('DELETE', $route);
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseStatusCodeSame(204);
+
+        // 4. Verify in database
+
+        $country = $countryRepository->findOneBy(['id' => $countryId]);
+        $this->assertNull($country);
+    }
+
+    // Private
+
+    private function postNew(): void
+    {
+        $body = [
+            "code" => 'uz',
+            "name" => 'Uzbekistan',
+            "nationality" => "Uzbekistani"
+        ];
+
+        $this->logIn("kevin@drosalys.fr");
+        $this->requestAsLoggedIn('POST', 'api/countries', ['json' => $body]);
     }
 }

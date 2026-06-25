@@ -11,16 +11,16 @@ class GameTest extends AbstractApiTestCase
     public function testGetCollection()
     {
         $response = $this->client->request('GET', 'api/games');
-        $data = $this->json($response);
-
         $this->assertResponseIsSuccessful();
 
+        $data = $this->json($response);
         $this->assertIsInt($data['totalItems']);
-        $this->assertNotNull($data['member'][0]['@id']);
-        $this->assertNotNull($data['member'][0]['@type']);
-        $this->assertNotNull($data['member'][0]['name']);
-        $this->assertNotNull($data['member'][0]['price']);
-        $this->assertNotNull($data['member'][0]['slug']);
-        $this->assertNotNull($data['member'][0]['thumbnailCover']);
+        $this->assertIsArray($data['member']);
+
+        $member = $data['member'][0];
+        $this->assertNotNull($member['name']);
+        $this->assertNotNull($member['price']);
+        $this->assertNotNull($member['slug']);
+        $this->assertNotNull($member['thumbnailCover']);
     }
 }

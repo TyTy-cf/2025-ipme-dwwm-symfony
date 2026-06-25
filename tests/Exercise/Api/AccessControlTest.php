@@ -27,8 +27,7 @@ class AccessControlTest extends AbstractApiTestCase
         $this->client->request($method, $endpoint);
         $this->assertResponseStatusCodeSame(401);
     }
-
-
+    
     #[TestWith(['POST', 'api/games'])]
     #[TestWith(['POST', 'api/countries'])]
     #[TestWith(['POST', 'api/categories'])]
