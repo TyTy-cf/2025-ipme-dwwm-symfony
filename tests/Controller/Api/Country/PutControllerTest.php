@@ -39,9 +39,7 @@ class PutControllerTest extends AbstractApiTestCaseTest
             'json' => [
                 'code' => 'TT',
                 'name' => 'Test Test',
-                'nationality' => 'Test',
-                'slug' => "test-test",
-                'url_flag' => null
+                'nationality' => 'Test'
             ],
         ]);
 
@@ -57,6 +55,18 @@ class PutControllerTest extends AbstractApiTestCaseTest
         $countryRepository = $this->get(CountryRepository::class);
         $country = $countryRepository->findOneBy(['name' => 'Test Test']);
         $this->assertNotNull($country);
+
+        $this->client->request('PUT', self::$COUNTRY . '/51', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/ld+json'
+            ],
+            'json' => [
+                'code' => 'TT',
+                'name' => 'TestTest',
+                'nationality' => 'Test'
+            ],
+        ]);
     }
 
     /**
