@@ -4,7 +4,6 @@ namespace App\Tests\Controller\Front;
 
 use App\Tests\AbstractWebTestCaseTest;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Metadata\TestWith;
 
 class HomeControllerTest extends AbstractWebTestCaseTest
 {
