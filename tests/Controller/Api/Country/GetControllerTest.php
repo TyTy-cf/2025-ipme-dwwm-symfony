@@ -39,6 +39,7 @@ class GetControllerTest extends AbstractApiTestCaseTest
             '@context' => '/api/contexts/Country',
             '@id' => '/api/countries',
             '@type' => 'Collection',
+            'totalItems' => 24,
             'member' => []
         ]);
     }
