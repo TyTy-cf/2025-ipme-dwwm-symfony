@@ -32,10 +32,31 @@ class CountryAPITest extends AbstractAPITestCase
     #[TestWith([
         '/api/countries',
         'POST',
-        [ 'code' => 'BE', 'name' => 'Belgique', 'nationality' => 'Belge' ],
-        ['code', 'name', 'id', 'nationality', 'urlFlag', 'slug'],
+        [ 'code' => 'be', 'name' => 'Belgique', 'nationality' => 'Belge' ],
+        ['code', 'name', 'nationality', 'urlFlag', 'slug'],
         'kevin@drosalys.fr', '12345'
         ])]
+    #[TestWith([
+        '/api/countries/1',
+        'PUT',
+        [ 'code' => 'fr', 'name' => 'Francais', 'nationality' => 'Francois' ],
+        ['code', 'name', 'nationality', 'urlFlag', 'slug'],
+        'kevin@drosalys.fr', '12345'
+    ])]
+    #[TestWith([
+        '/api/countries/2',
+        'PATCH',
+        [ 'code' => 'gb', 'name' => 'RU', 'nationality' => 'RUinais' ],
+        ['code', 'name', 'nationality', 'urlFlag', 'slug'],
+        'kevin@drosalys.fr', '12345'
+    ])]
+    #[TestWith([
+        '/api/countries/90',
+        'DELETE',
+        [],
+        [],
+        'kevin@drosalys.fr', '12345'
+    ])]
     public function testContentSentOk(string $url, string $method, array $associativeSent, array $propertiesToFind, string $email = "", string $password = ""): void
     {
         $this->testContentSentEndpoint($url, $method, $associativeSent, $propertiesToFind, $email, $password);

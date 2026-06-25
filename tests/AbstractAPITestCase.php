@@ -79,20 +79,42 @@ class AbstractAPITestCase extends ApiTestCase
         return $response;
     }
 
+    /**
+     * @param string $url
+     * @param string $method
+     * @param array $associativeSent
+     * @param array $propertiesToFind
+     * @param string $email
+     * @param string $password
+     * @return ResponseInterface
+     */
     protected function testContentSentEndpoint(string $url, string $method, array $associativeSent, array $propertiesToFind, string $email = "", string $password = ""): ResponseInterface
     {
         $options = [
             'json' => $associativeSent,
         ];
+        $options['headers'] = [
+            'Accept' => 'application/ld+json',
+            'Content-Type' => 'application/ld+json',
+        ];
 
         if ($email !== "" && $password !== "")
         {
             $token = $this->getAuthToken($email, $password);
-            $options['headers'] = ['Authorization' => 'Bearer ' . $token];
+            $options['headers']['Authorization'] = 'Bearer ' . $token;
+        }
+
+        $id = null;
+        $object = null;
+        //Store object before changes
+        if ($method === "PATCH" || $method === "PUT" || $method === "DELETE")
+        {
+            $str = explode('/', $url);
+            $id = $str[count($str) - 1];
+            $object = clone $this->repo->find($id);
         }
 
         $response = $this->client->request($method, $url, $options);
-        dump($response);
 
         $this->assertResponseIsSuccessful();
 
@@ -108,8 +130,19 @@ class AbstractAPITestCase extends ApiTestCase
         if ($method === "POST")
         {
             $this->em->remove($entity);
-            $this->em->flush();
         }
+        elseif ($method === "PATCH" || $method === "PUT")
+        {
+            $newObject = $this->repo->find($id);
+            $newObject = $object;
+
+            $this->em->persist($newObject);
+        }
+        elseif ($method === "DELETE")
+        {
+            $this->em->persist($object);
+        }
+        $this->em->flush();
         return $response;
     }
 
