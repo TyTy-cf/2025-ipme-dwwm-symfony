@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Exercise;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
-class AbstractKernelTestCase extends WebTestCase
+class AbstractKernelTestCase extends KernelTestCase
 {
     private Container $container;
 

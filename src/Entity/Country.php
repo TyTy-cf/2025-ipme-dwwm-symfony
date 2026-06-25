@@ -36,6 +36,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Get( // Récupère UN objet Category
             normalizationContext: [
                 'groups' => [
+                    'country:collection',
                     'country:item',
                 ],
             ]
@@ -78,9 +79,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 #[ApiFilter(
     SearchFilter::class, properties: [
-        'name' => 'partials',
-        'nationality' => 'partials',
-    ],
+    'name' => 'partials',
+    'nationality' => 'partials',
+],
 )]
 #[ORM\Index(columns: ['nationality'])]
 #[ORM\Index(columns: ['slug'])]

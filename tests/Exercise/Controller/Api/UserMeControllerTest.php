@@ -4,23 +4,29 @@ declare(strict_types=1);
 
 namespace App\Tests\Exercise\Controller\Api;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Tests\Exercise\AbstractApiTestCase;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 
 #[IgnoreDeprecations]
-class UserMeControllerTest extends ApiTestCase
+class UserMeControllerTest extends AbstractApiTestCase
 {
-    public function testSomething(): void
+    public function testUserMeRouteWorks()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request('POST', '/api/login_check', [
-            'json' => [
-                'email' => 'kevin@drosalys.fr',
-                'password' => '12345'
-            ]
-        ]);
+        $this->logIn("kevin@drosalys.fr");
+        
+        $response = $this->requestAsLoggedIn('GET', 'api/user/me');
+        $data = $this->json($response);
 
         $this->assertResponseIsSuccessful();
+        $this->assertNotNull($data['wallet']);
+    }
+
+    public function testUserMeReturnsNullWhenLoggedOut()
+    {
+        $response = $this->client->request('GET', 'api/user/me');
+        $json = $this->json($response);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertNull($json);
     }
 }
