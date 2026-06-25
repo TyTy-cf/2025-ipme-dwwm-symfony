@@ -4,7 +4,6 @@ namespace App\Tests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\Client;
-use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -17,6 +16,9 @@ class AbstractApiTestCaseTest extends ApiTestCase
 
     static $GET = 'GET';
     static $POST = 'POST';
+    static $PUT = 'PUT';
+    static $PATCH = 'PATCH';
+    static $DELETE = 'DELETE';
     protected string $defaultUrl;
     protected Client $client;
 
@@ -38,7 +40,7 @@ class AbstractApiTestCaseTest extends ApiTestCase
         }
     }
 
-    protected function testAuthenticatedEndpoint(string $userEmail, string $password, string $method, array $body = null): ResponseInterface
+    protected function testAuthenticatedEndpoint(string $userEmail, string $password, string $method, array $body = null, int $id = null): ResponseInterface
     {
         $token = $this->getAuthToken($userEmail, $password);
 
@@ -54,7 +56,17 @@ class AbstractApiTestCaseTest extends ApiTestCase
             $options['json'] = $body;
         }
 
-        return $this->client->request($method, $this->defaultUrl, $options);
+        $url = $this->defaultUrl;
+
+        if(null !== $id) {
+            $url .= '/' . $id;
+        }
+
+        return $this->client->request($method, $url, $options);
     }
 
+    protected function get(string $class): ?object
+    {
+        return static::getContainer()->get($class);
+    }
 }
