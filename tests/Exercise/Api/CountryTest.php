@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Exercise\Controller\Api;
+namespace App\Tests\Exercise\Api;
 
 use App\Repository\CountryRepository;
 use App\Tests\Exercise\AbstractApiTestCase;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\Attributes\TestWith;
 
 class CountryTest extends AbstractApiTestCase
 {
