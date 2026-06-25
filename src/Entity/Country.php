@@ -37,6 +37,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             normalizationContext: [
                 'groups' => [
                     'country:item',
+                    'country:collection',
                 ],
             ]
         ),

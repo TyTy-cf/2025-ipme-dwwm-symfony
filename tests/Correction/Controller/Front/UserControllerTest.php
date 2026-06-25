@@ -26,4 +26,12 @@ class UserControllerTest extends AbstractWebTestCaseTest
         $this->assertSelectorNotExists(self::$FORM_SELECTOR);
     }
 
+    #[TestWith(['zprosacco@hotmail.com'], 'Test profile OK as self, with form')]
+    public function testProfileSelf(?string $email): void
+    {
+        $this->login($email);
+        $this->crawler = $this->client->request('GET', $this->defaultUrl);
+        $this->assertSelectorExists(self::$FORM_SELECTOR);
+    }
+
 }
