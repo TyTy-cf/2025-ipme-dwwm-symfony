@@ -5,22 +5,51 @@ declare(strict_types=1);
 namespace App\Tests\Correction;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\BrowserKit\AbstractBrowser;
+use ApiPlatform\Symfony\Bundle\Test\Client;
+use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Symfony\Bundle\Test\Response as ApiResponse;
 
 class AbstractApiTestCaseTest extends ApiTestCase
 {
     static string $LOGIN_CHECK = '/api/login_check';
-    static string $ME = '/api/me';
+    static string $ME = '/api/user/me';
 
     protected string $defaultUrl;
     protected bool $skipAccessTest = false;
-    protected KernelBrowser|AbstractBrowser|null $client;
+    protected Client $client;
 
     protected function setUp(): void
     {
+        $this->client = static::createClient();
     }
 
+    protected function getAuthToken(string $email, string $password): ?string {
+        try {
+            /** @var Response $response */
+            $response = $this->client->request('POST', self::$LOGIN_CHECK, [
+                'json' => [
+                    'email' => $email,
+                    'password' => $password
+                ],
+            ]);
 
+            $data = json_decode($response->getContent(), true);
+            return $data['token'] ?? null;
+        } catch (ClientException $e) {
+            return null;
+        }
+    }
+
+    protected function loginAndAccessRoute(string $email, string $password): ApiResponse {
+        $token = $this->getAuthToken($email, $password);
+
+        /** @var ApiResponse $response */
+        $response = $this->client->request('GET', $this->defaultUrl, [
+            'auth_bearer' => $token,
+        ]);
+
+        return $response;
+    }
 
 }
