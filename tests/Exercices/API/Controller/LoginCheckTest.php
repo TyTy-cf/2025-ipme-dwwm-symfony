@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests\API\Controller;
+namespace App\Tests\Exercices\API\Controller;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use App\Tests\AbstractApiTestCaseTest;
+use App\Tests\Exercices\AbstractApiTestCaseTest;
 
 class LoginCheckTest extends AbstractApiTestCaseTest
 {

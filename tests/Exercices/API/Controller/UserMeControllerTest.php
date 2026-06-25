@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\API\Controller;
+namespace App\Tests\Exercices\API\Controller;
 
-use App\Tests\AbstractApiTestCaseTest;
+use App\Tests\Exercices\AbstractApiTestCaseTest;
 
 class UserMeControllerTest extends AbstractApiTestCaseTest
 {
@@ -13,7 +13,9 @@ class UserMeControllerTest extends AbstractApiTestCaseTest
     }
     public function testUserMeEndpoint(): void
     {
-        $data = $this->testAuthenticatedEndpoint('zprosacco@hotmail.com', '12345', self::$GET);
+        $response = $this->testAuthenticatedEndpoint('zprosacco@hotmail.com', '12345', self::$GET);
+
+        $data = json_decode($response->getContent(), true);
 
         $this->assertSame("zprosacco@hotmail.com", $data["email"]);
         $this->assertSame("morgan93", $data["name"]);

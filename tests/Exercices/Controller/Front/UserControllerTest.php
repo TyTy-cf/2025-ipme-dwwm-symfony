@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller\Front;
+namespace App\Tests\Exercices\Controller\Front;
 
-use App\Tests\AbstractWebTestCaseTest;
+use App\Tests\Exercices\AbstractWebTestCaseTest;
 use PHPUnit\Framework\Attributes\TestWith;
 
 class UserControllerTest extends AbstractWebTestCaseTest
@@ -25,9 +25,4 @@ class UserControllerTest extends AbstractWebTestCaseTest
         $this->assertSelectorNotExists(self::$FORM_SELECTOR);
     }
 
-    public function testProfileSelf(?string $email): void
-    {
-        $this->login($email);
-        $this->crawler = $this->client->request('GET', $this->defaultUrl);
-    }
 }

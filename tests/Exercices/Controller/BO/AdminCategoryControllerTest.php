@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller\BO;
+namespace App\Tests\Exercices\Controller\BO;
 
-use App\Tests\AbstractWebTestCaseTest;
+use App\Tests\Exercices\AbstractWebTestCaseTest;
 
 class AdminCategoryControllerTest extends AbstractWebTestCaseTest
 {

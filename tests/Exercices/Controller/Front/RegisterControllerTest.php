@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Controller\Front;
+namespace App\Tests\Exercices\Controller\Front;
 
 use App\Entity\User;
-use App\Tests\AbstractWebTestCaseTest;
+use App\Tests\Exercices\AbstractWebTestCaseTest;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\TestWith;
 

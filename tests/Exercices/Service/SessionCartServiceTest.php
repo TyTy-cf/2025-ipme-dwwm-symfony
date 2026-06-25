@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Service;
+namespace App\Tests\Exercices\Service;
 
 use App\DTO\CartDTO;
 use App\DTO\GameDTO;
 use App\Repository\GameRepository;
 use App\Service\SessionCartService;
-use App\Tests\AbstractKernelTestCaseTest;
+use App\Tests\Exercices\AbstractKernelTestCaseTest;
 
 class SessionCartServiceTest extends AbstractKernelTestCaseTest
 {

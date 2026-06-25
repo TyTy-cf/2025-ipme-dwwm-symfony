@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Tests\API\Country;
+namespace App\Tests\Exercices\API\Country;
 
 use App\Entity\Country;
 use App\Repository\CountryRepository;
-use App\Tests\AbstractApiTestCaseTest;
+use App\Tests\Exercices\AbstractApiTestCaseTest;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\Attributes\TestWith;
 
-class CountryApiPutTest extends AbstractApiTestCaseTest
+class CountryApiPatchTest extends AbstractApiTestCaseTest
 {
     public function setUp(): void
     {
@@ -16,17 +15,19 @@ class CountryApiPutTest extends AbstractApiTestCaseTest
         $this->defaultUrl = self::$COUNTRIES_URL;
     }
 
-    public function testPutCountryOk(): void
+    /*
+     * TODO: Refacto PATCH et PUT, car ils partagent 90% de leur code. Extraire les bloc d'assert en fonctions utilitaires
+     */
+
+    public function testPatchCountryOk(): void
     {
         $countryRepository = $this->get(CountryRepository::class);
         $country = $countryRepository->findOneBy(["id" => 1]);
         $body = [
-            'code'  => $country->getCode(),
             'name' => 'Espagne',
-            'nationality' => $country->getNationality(),
         ];
 
-        $response = $this->testAuthenticatedEndpoint('kevin@drosalys.fr', '12345', self::$PUT, $body, $country->getId());
+        $response = $this->testAuthenticatedEndpoint('kevin@drosalys.fr', '12345', self::$PATCH, $body, $country->getId());
 
         // check response status code
         $this->assertResponseStatusCodeSame(200);
@@ -56,21 +57,5 @@ class CountryApiPutTest extends AbstractApiTestCaseTest
             $countryReset->setName($country->getName());
             $entityManager->flush();
         }
-    }
-
-    #[TestWith([["code" => "", "name" => "France", "nationality" =>  "Français",]])]
-    #[TestWith([["code" => "fr", "name" => "", "nationality" =>  "Français",]])]
-    #[TestWith([["code" => "fr", "name" => "France", "nationality" =>  "",]])]
-    public function testPutCountryKo(array $bodyData): void
-    {
-        $body = [
-            'code'  => $bodyData['code'],
-            'name' => $bodyData['name'],
-            'nationality' => $bodyData['nationality'],
-        ];
-        $this->testAuthenticatedEndpoint('kevin@drosalys.fr', '12345', self::$PUT, $body, 1);
-
-        // check response status code
-        $this->assertResponseStatusCodeSame(422);
     }
 }

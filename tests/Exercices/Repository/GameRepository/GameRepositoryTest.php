@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Repository\GameRepository;
+namespace App\Tests\Exercices\Repository\GameRepository;
 
 use App\Repository\GameRepository;
-use App\Tests\AbstractKernelTestCaseTest;
+use App\Tests\Exercices\AbstractKernelTestCaseTest;
 use PHPUnit\Framework\Attributes\TestWith;
 
 class GameRepositoryTest extends AbstractKernelTestCaseTest

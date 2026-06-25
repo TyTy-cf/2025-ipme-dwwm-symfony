@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Exercices;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\Client;
+use App\Entity\Country;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -20,6 +22,7 @@ class AbstractApiTestCaseTest extends ApiTestCase
     static $PATCH = 'PATCH';
     static $DELETE = 'DELETE';
     protected string $defaultUrl;
+    protected string $classRepo;
     protected Client $client;
 
     protected function setUp(): void
@@ -43,14 +46,18 @@ class AbstractApiTestCaseTest extends ApiTestCase
     protected function testAuthenticatedEndpoint(string $userEmail, string $password, string $method, array $body = null, int $id = null): ResponseInterface
     {
         $token = $this->getAuthToken($userEmail, $password);
-
         $options = [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept' => 'application/ld+json',
-                'Content-Type' => 'application/ld+json',
-            ],
+            ]
         ];
+
+        if($method === self::$PATCH) {
+            $options['headers']['Content-Type'] = 'application/merge-patch+json';
+        }else{
+            $options['headers']['Content-Type'] = 'application/ld+json';
+        }
 
         if (!empty($body)) {
             $options['json'] = $body;

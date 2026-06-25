@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Exercices;
 
-use App\Entity\Game;
-use App\Repository\GameRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;

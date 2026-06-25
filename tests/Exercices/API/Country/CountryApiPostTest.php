@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\API\Country;
+namespace App\Tests\Exercices\API\Country;
 
 use App\Repository\CountryRepository;
-use App\Tests\AbstractApiTestCaseTest;
+use App\Tests\Exercices\AbstractApiTestCaseTest;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\TestWith;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller\Front;
+namespace App\Tests\Exercices\Controller\Front;
 
-use App\Tests\AbstractWebTestCaseTest;
+use App\Tests\Exercices\AbstractWebTestCaseTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class HomeControllerTest extends AbstractWebTestCaseTest
