@@ -39,7 +39,8 @@ class AdminControllerTest extends AbstractWebTestCaseTest
 
         foreach ($roles as $role) {
             foreach ($routes as $route) {
-                $data[] = [$role[0], $route, $role[1]];
+                $key = 'Access ' . $route . ' for ' . $role[0] . ' is ' . $role[1];
+                $data[$key] = [$role[0], $route, $role[1]];
             }
         }
 
