@@ -36,4 +36,6 @@ class CountryControllerTest extends AbstractWebTestCase
         $this->client->request("GET", $path);
         $this->assertResponseIsSuccessful();
     }
+
+
 }
