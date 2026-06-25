@@ -6,18 +6,14 @@ use App\Tests\AbstractApiTestCaseTest;
 
 class UserMeControllerTest extends AbstractApiTestCaseTest
 {
-    private const USER_EMAIL = 'zprosacco@hotmail.com';
-    private const USER_PASSWORD = '12345';
-
-    public function testGetAuthToken(): void
+    public function setUp(): void
     {
-        $this->getAuthToken(self::USER_EMAIL, self::USER_PASSWORD);
-        $this->assertResponseIsSuccessful();
+        parent::setUp();
+        $this->defaultUrl = self::$USER_ME;
     }
-
     public function testUserMeEndpoint(): void
     {
-        $data = $this->testAuthenticatedEndpoint(self::USER_EMAIL, self::USER_PASSWORD, self::$GET, self::$USER_ME);
+        $data = $this->testAuthenticatedEndpoint('zprosacco@hotmail.com', '12345', self::$GET);
 
         $this->assertSame("zprosacco@hotmail.com", $data["email"]);
         $this->assertSame("morgan93", $data["name"]);
