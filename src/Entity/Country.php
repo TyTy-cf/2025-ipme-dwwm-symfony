@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ApiResource(
@@ -37,7 +36,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get( // Récupère UN objet Category
             normalizationContext: [
                 'groups' => [
-                    'country:collection',
                     'country:item',
                     'country:collection',
                 ],
@@ -81,9 +79,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(
     SearchFilter::class, properties: [
-    'name' => 'partials',
-    'nationality' => 'partials',
-],
+        'name' => 'partials',
+        'nationality' => 'partials',
+    ],
 )]
 #[ORM\Index(columns: ['nationality'])]
 #[ORM\Index(columns: ['slug'])]
@@ -96,15 +94,17 @@ class Country implements SlugInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 2)]
-    #[Assert\NotBlank(message: "Code doit être renseigné")]
+    #[Assert\NotBlank(message: 'Le code doit être renseigné !')]
     #[Groups(['country:item', 'country:post', 'publisher:item'])]
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom doit être renseigné !')]
     #[Groups(['country:item', 'country:post', 'publisher:item', 'publisher:collection'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La nationalité doit être renseigné !')]
     #[Groups(['country:collection', 'country:post', 'publisher:item'])]
     private ?string $nationality = null;
 
