@@ -57,4 +57,20 @@ class CountryApiPutTest extends AbstractApiTestCaseTest
             $entityManager->flush();
         }
     }
+
+    #[TestWith([["code" => "", "name" => "France", "nationality" =>  "Français",]])]
+    #[TestWith([["code" => "fr", "name" => "", "nationality" =>  "Français",]])]
+    #[TestWith([["code" => "fr", "name" => "France", "nationality" =>  "",]])]
+    public function testPutCountryKo(array $bodyData): void
+    {
+        $body = [
+            'code'  => $bodyData['code'],
+            'name' => $bodyData['name'],
+            'nationality' => $bodyData['nationality'],
+        ];
+        $this->testAuthenticatedEndpoint('kevin@drosalys.fr', '12345', self::$PUT, $body, 1);
+
+        // check response status code
+        $this->assertResponseStatusCodeSame(422);
+    }
 }
