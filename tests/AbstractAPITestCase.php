@@ -93,10 +93,20 @@ class AbstractAPITestCase extends ApiTestCase
         $options = [
             'json' => $associativeSent,
         ];
-        $options['headers'] = [
-            'Accept' => 'application/ld+json',
-            'Content-Type' => 'application/ld+json',
-        ];
+        if ($method === 'PATCH')
+        {
+            $options['headers'] = [
+                'Accept' => 'application/ld+json',
+                'Content-Type' => 'application/merge-patch+json',
+            ];
+        }
+        else
+        {
+            $options['headers'] = [
+                'Accept' => 'application/ld+json',
+                'Content-Type' => 'application/ld+json',
+            ];
+        }
 
         if ($email !== "" && $password !== "")
         {
@@ -105,13 +115,21 @@ class AbstractAPITestCase extends ApiTestCase
         }
 
         $id = null;
-        $object = null;
+        $name = $this->repo->getClassName();
+        $object = new $name();
         //Store object before changes
-        if ($method === "PATCH" || $method === "PUT" || $method === "DELETE")
+        if ($method === "PATCH" || $method === "PUT")
         {
             $str = explode('/', $url);
             $id = $str[count($str) - 1];
-            $object = clone $this->repo->find($id);
+            $objectOriginal = $this->repo->find($id);
+
+            $this->storeObject($objectOriginal, $object);
+        }
+        elseif ($method === "DELETE")
+        {
+            $object = clone $this->repo->findOneBy($associativeSent);
+            $url .= $object->getId();
         }
 
         $response = $this->client->request($method, $url, $options);
@@ -134,9 +152,7 @@ class AbstractAPITestCase extends ApiTestCase
         elseif ($method === "PATCH" || $method === "PUT")
         {
             $newObject = $this->repo->find($id);
-            $newObject = $object;
-
-            $this->em->persist($newObject);
+            $this->revertChange($object, $newObject);
         }
         elseif ($method === "DELETE")
         {
@@ -146,4 +162,27 @@ class AbstractAPITestCase extends ApiTestCase
         return $response;
     }
 
+
+    private function storeObject($old, $new): void
+    {
+        $reflectionClass = new \ReflectionClass($old);
+        foreach ($reflectionClass->getProperties() as $property)
+        {
+            if ($property->getName() !== 'id')
+            {
+                $property->setValue($new, $property->getValue($old));
+            }
+        }
+    }
+    private function revertChange($old, $new): void
+    {
+        $reflectionClass = new \ReflectionClass($new);
+        foreach ($reflectionClass->getProperties() as $property)
+        {
+            if ($property->getName() !== 'id')
+            {
+                $property->setValue($new, $property->getValue($old));
+            }
+        }
+    }
 }

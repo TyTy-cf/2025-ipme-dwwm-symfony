@@ -39,7 +39,7 @@ class CountryAPITest extends AbstractAPITestCase
     #[TestWith([
         '/api/countries/1',
         'PUT',
-        [ 'code' => 'fr', 'name' => 'Francais', 'nationality' => 'Francois' ],
+        [ 'code' => 'fr', 'name' => 'France', 'nationality' => 'Francois' ],
         ['code', 'name', 'nationality', 'urlFlag', 'slug'],
         'kevin@drosalys.fr', '12345'
     ])]
@@ -51,9 +51,9 @@ class CountryAPITest extends AbstractAPITestCase
         'kevin@drosalys.fr', '12345'
     ])]
     #[TestWith([
-        '/api/countries/90',
+        '/api/countries/',
         'DELETE',
-        [],
+        [ 'code' => 'ml', 'name' => 'Malte', 'nationality' => 'maltais' ],
         [],
         'kevin@drosalys.fr', '12345'
     ])]
