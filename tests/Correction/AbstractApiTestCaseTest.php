@@ -15,6 +15,8 @@ class AbstractApiTestCaseTest extends ApiTestCase
     static string $LOGIN_CHECK = '/api/login_check';
     static string $ME = '/api/user/me';
 
+    static string $COUNTRY = '/api/countries';
+
     protected string $defaultUrl;
     protected bool $skipAccessTest = false;
     protected Client $client;

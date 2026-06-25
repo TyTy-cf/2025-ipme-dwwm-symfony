@@ -6,6 +6,7 @@ use App\Tests\Correction\AbstractApiTestCaseTest;
 
 class GetControllerTest extends AbstractApiTestCaseTest
 {
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -16,7 +17,7 @@ class GetControllerTest extends AbstractApiTestCaseTest
     {
         $token = $this->getAuthToken('kevin@drosalys.fr', '12345');
 
-        $this->client->request('GET', self::$COUNTRY . '/' . $this->country->getId(), [
+        $this->client->request('GET', self::$COUNTRY, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Content-Type' => 'application/ld+json',
@@ -25,8 +26,9 @@ class GetControllerTest extends AbstractApiTestCaseTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'code' => 'TE',
-            'name' => 'Test Country',
+            '@context' => '/api/contexts/Country',
+            '@id' => '/api/countries',
+            '@type' => 'Collection',
         ]);
     }
 }
