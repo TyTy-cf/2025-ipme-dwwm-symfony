@@ -36,10 +36,10 @@ abstract class AbstractApiTestCase extends ApiTestCase
     protected function requestAsLoggedIn(string $method, string $url, array $options = []): ResponseInterface
     {
         $options['headers'] = [
-            ...($options['headers'] ?? []),
             'Authorization' => 'Bearer ' . $this->token,
+            'Content-Type' => 'application/ld+json',
             'Accept' => 'application/ld+json',
-            'Content-Type' => 'application/ld+json'
+            ...($options['headers'] ?? []),
         ];
 
         return $this->client->request($method, $url, $options);
