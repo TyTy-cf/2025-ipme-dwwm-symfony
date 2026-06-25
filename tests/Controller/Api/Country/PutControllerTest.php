@@ -31,7 +31,7 @@ class PutControllerTest extends AbstractApiTestCaseTest
     {
         $token = $this->getAuthToken('kevin@drosalys.fr', '12345');
 
-        $this->client->request('PUT', self::$COUNTRY . '/51', [
+        $this->client->request('PUT', self::$COUNTRY . '/54', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Content-Type' => 'application/ld+json'
@@ -56,7 +56,7 @@ class PutControllerTest extends AbstractApiTestCaseTest
         $country = $countryRepository->findOneBy(['name' => 'Test Test']);
         $this->assertNotNull($country);
 
-        $this->client->request('PUT', self::$COUNTRY . '/51', [
+        $this->client->request('PUT', self::$COUNTRY . '/54', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Content-Type' => 'application/ld+json'
