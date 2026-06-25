@@ -10,6 +10,8 @@ class AbstractApiTestCaseTest extends ApiTestCase
     static $LOGIN_CHECK = '/api/login_check';
     static $USER_ME = '/api/user/me';
 
+    static $COUNTRIES = '/api/countries';
+
     static $GET = 'GET';
     protected string $defaultUrl;
     protected Client $client;
@@ -17,13 +19,13 @@ class AbstractApiTestCaseTest extends ApiTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->client->request('GET', $this->defaultUrl);
     }
 
     protected function getAuthToken(string $email, string $password): string
     {
         $response= $this->client->request('POST', self::$LOGIN_CHECK, ['json' => ['email' => $email, 'password' => $password],]);
-        return $response->toArray()['token'];
+        $data = json_decode($response->getContent(), true);
+        return $data['token'];
     }
 
     protected function testAuthenticatedEndpoint(string $userEmail, string $password, string $method, string $url): array

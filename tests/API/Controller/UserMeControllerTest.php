@@ -9,12 +9,6 @@ class UserMeControllerTest extends AbstractApiTestCaseTest
     private const USER_EMAIL = 'zprosacco@hotmail.com';
     private const USER_PASSWORD = '12345';
 
-    public function setUp(): void
-    {
-        $this->defaultUrl = self::$LOGIN_CHECK;
-        parent::setUp();
-    }
-
     public function testGetAuthToken(): void
     {
         $this->getAuthToken(self::USER_EMAIL, self::USER_PASSWORD);
