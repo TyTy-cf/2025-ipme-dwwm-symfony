@@ -29,6 +29,13 @@ class PostControllerTest extends AbstractApiTestCaseTest
         ]);
 
         $this->assertResponseStatusCodeSame(201);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('code', $data);
+        $this->assertArrayHasKey('name', $data);
+        $this->assertArrayHasKey('nationality', $data);
+        $this->assertArrayHasKey('urlFlag', $data);
+        $this->assertArrayHasKey('slug', $data);
 
         $countryRepository = $this->get(CountryRepository::class);
         $country = $countryRepository->findOneBy(['code' => 'TE']);
