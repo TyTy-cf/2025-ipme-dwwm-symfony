@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Exercise\Entity;
+namespace App\Tests\Exercise\Controller\Api;
 
 use App\Tests\Exercise\AbstractApiTestCase;
 

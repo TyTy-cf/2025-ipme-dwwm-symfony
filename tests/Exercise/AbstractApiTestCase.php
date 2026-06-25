@@ -11,11 +11,11 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 #[IgnoreDeprecations]
-class AbstractApiTestCase extends ApiTestCase
+abstract class AbstractApiTestCase extends ApiTestCase
 {
     protected Container $container;
     protected Client $client;
-    protected string $token;
+    private string $token;
 
     protected function setUp(): void
     {
@@ -24,7 +24,7 @@ class AbstractApiTestCase extends ApiTestCase
         $this->container = static::getContainer();
     }
 
-    public function logIn(string $email): void
+    protected function logIn(string $email): void
     {
         $body = ['email' => $email, 'password' => '12345'];
         $response = $this->client->request('POST', '/api/login_check', ['json' => $body]);
@@ -33,11 +33,13 @@ class AbstractApiTestCase extends ApiTestCase
         $this->token = $json['token'];
     }
 
-    public function requestAsLoggedIn(string $method, string $url, array $options = []): ResponseInterface
+    protected function requestAsLoggedIn(string $method, string $url, array $options = []): ResponseInterface
     {
         $options['headers'] = [
             ...($options['headers'] ?? []),
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->token,
+            'Accept' => 'application/ld+json',
+            'Content-Type' => 'application/ld+json'
         ];
 
         return $this->client->request($method, $url, $options);

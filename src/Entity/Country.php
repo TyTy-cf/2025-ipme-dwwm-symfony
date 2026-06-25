@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ApiResource(
@@ -95,6 +96,7 @@ class Country implements SlugInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 2)]
+    #[Assert\NotBlank(message: "Code doit être renseigné")]
     #[Groups(['country:item', 'country:post', 'publisher:item'])]
     private ?string $code = null;
 

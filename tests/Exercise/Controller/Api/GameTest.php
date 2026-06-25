@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Exercise\Entity;
+namespace App\Tests\Exercise\Controller\Api;
 
 use App\Tests\Exercise\AbstractApiTestCase;
 
 class GameTest extends AbstractApiTestCase
 {
-    public function testGetGamesCollection()
+    public function testGetCollection()
     {
         $response = $this->client->request('GET', 'api/games');
         $data = $this->json($response);

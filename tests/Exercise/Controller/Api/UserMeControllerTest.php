@@ -13,7 +13,7 @@ class UserMeControllerTest extends AbstractApiTestCase
     public function testUserMeRouteWorks()
     {
         $this->logIn("kevin@drosalys.fr");
-        
+
         $response = $this->requestAsLoggedIn('GET', 'api/user/me');
         $data = $this->json($response);
 
