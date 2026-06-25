@@ -12,7 +12,7 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-class PutControllerTest extends AbstractApiTestCaseTest
+class PatchControllerTest extends AbstractApiTestCaseTest
 {
     protected function setUp(): void
     {
@@ -27,19 +27,17 @@ class PutControllerTest extends AbstractApiTestCaseTest
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function testPutCountryOk(): void
+    public function testPatchCountryOk(): void
     {
         $token = $this->getAuthToken('kevin@drosalys.fr', '12345');
 
-        $this->client->request('PUT', self::$COUNTRY . '/51', [
+        $this->client->request('PATCH', self::$COUNTRY . '/23', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
-                'Content-Type' => 'application/ld+json'
+                'Content-Type' => 'application/merge-patch+json'
             ],
             'json' => [
-                'code' => 'TT',
-                'name' => 'Test Test',
-                'nationality' => 'Test'
+                'code' => 'TE'
             ],
         ]);
 
@@ -47,24 +45,22 @@ class PutControllerTest extends AbstractApiTestCaseTest
         $this->assertJsonContains([
             '@context' => '/api/contexts/Country',
             '@type' => 'Country',
-            'code' => 'TT',
-            'name' => 'Test Test',
-            'nationality' => 'Test',
+            'code' => 'TE',
+            'name' => 'Suède',
+            'nationality' => 'Suèdois',
         ]);
 
         $countryRepository = $this->get(CountryRepository::class);
-        $country = $countryRepository->findOneBy(['name' => 'Test Test']);
+        $country = $countryRepository->findOneBy(['code' => 'TE']);
         $this->assertNotNull($country);
 
-        $this->client->request('PUT', self::$COUNTRY . '/51', [
+        $this->client->request('PATCH', self::$COUNTRY . '/23', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
-                'Content-Type' => 'application/ld+json'
+                'Content-Type' => 'application/merge-patch+json'
             ],
             'json' => [
-                'code' => 'TT',
-                'name' => 'TestTest',
-                'nationality' => 'Test'
+                'code' => 'se'
             ],
         ]);
     }
@@ -72,42 +68,19 @@ class PutControllerTest extends AbstractApiTestCaseTest
     /**
      * @throws TransportExceptionInterface
      */
-    public function testPutCountryAuthKo(): void
+    public function testPatchCountryAuthKo(): void
     {
         $token = $this->getAuthToken('kevin@drosalys.fr', '123456');
 
-        $this->client->request('PUT', self::$COUNTRY, [
+        $this->client->request('PATCH', self::$COUNTRY, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
-                'Content-Type' => 'application/ld+json',
+                'Content-Type' => 'application/merge-patch+json',
             ],
             'json' => [
                 'code' => 'TT',
-                'name' => 'Test Test',
-                'nationality' => 'Test'
             ],
         ]);
-        $this->assertResponseStatusCodeSame(405);
-    }
-
-    /**
-     * @throws TransportExceptionInterface
-     */
-    #[TestWith([['code' => 'TE','name' => '', 'nationality' => 'Test']], 'Test with empty name')]
-    #[TestWith([['code' => 'TE','name' => 'Test',]], 'Test with empty nationality')]
-    #[TestWith([['code' => '','name' => '', 'nationality' => 'Test',]], 'Test with empty code')]
-    public function testPutCountryValidationKo(array $data): void
-    {
-        $token = $this->getAuthToken('kevin@drosalys.fr', '12345');
-
-        $this->client->request('PUT', self::$COUNTRY, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Content-Type' => 'application/ld+json',
-            ],
-            'json' => $data,
-        ]);
-
         $this->assertResponseStatusCodeSame(405);
     }
 }
