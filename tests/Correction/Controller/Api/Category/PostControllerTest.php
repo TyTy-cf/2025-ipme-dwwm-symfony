@@ -34,7 +34,7 @@ class PostControllerTest extends AbstractApiTestCaseTest
     #[TestWith([['image' => null,'name' => ''], 422], 'Test with empty name')]
     public function testPostCategoryOk(array $data, int $expectedCode, array $jsonKeys = []): void
     {
-        $this->testPostOk($data, $expectedCode, $jsonKeys);
+        $this->postPut($data, $expectedCode, 'POST', $jsonKeys);
     }
 
 }

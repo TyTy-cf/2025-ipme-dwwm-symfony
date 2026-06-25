@@ -30,7 +30,7 @@ class PostControllerTest extends AbstractApiTestCaseTest
     #[TestWith([['code' => '','name' => '', 'nationality' => 'Test'], 422], 'Test with empty code')]
     public function testPostCountryOk(array $data, int $expectedCode, array $jsonKeys = []): void
     {
-        $this->testPostOk($data, $expectedCode, $jsonKeys);
+        $this->postPut($data, $expectedCode, 'POST', $jsonKeys);
     }
 
 }

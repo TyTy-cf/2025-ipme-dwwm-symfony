@@ -6,7 +6,6 @@ namespace App\Tests\Correction;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\Client;
-use App\Repository\CountryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,11 +60,11 @@ class AbstractApiTestCaseTest extends ApiTestCase
         return $response;
     }
 
-    protected function testPostOk(array $data, int $expectedCode, array $jsonKeys = []): void
+    protected function postPut(array $data, int $expectedCode, string $method, array $jsonKeys = []): void
     {
         $token = $this->getAuthToken('kevin@drosalys.fr', '12345');
 
-        $response = $this->client->request('POST', $this->defaultUrl, [
+        $response = $this->client->request($method, $this->defaultUrl, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept' => 'application/ld+json',
@@ -87,9 +86,11 @@ class AbstractApiTestCaseTest extends ApiTestCase
             $item = $repository->findOneBy($data);
             $this->assertNotNull($item);
 
-            $em = $this->get(EntityManagerInterface::class);
-            $em->remove($item);
-            $em->flush();
+            if ($method === 'POST') {
+                $em = $this->get(EntityManagerInterface::class);
+                $em->remove($item);
+                $em->flush();
+            }
         }
     }
 
