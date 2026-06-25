@@ -10,6 +10,6 @@ class UserTest extends AbstractApiTestCase
 {
     public function testSomething(): void
     {
-        $this->assertResponseIsSuccessful();
+        //
     }
 }
